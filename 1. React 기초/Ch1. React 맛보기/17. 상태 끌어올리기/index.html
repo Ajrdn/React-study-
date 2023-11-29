@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<body>
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <div id="root"></div>
+  <script type="text/babel">
+    const ID = ({ handleIDChange }) => {
+      return <>
+        <label>ID : </label>
+        <input onChange={handleIDChange} />
+      </>
+    }
+
+    const Password = ({ handlePasswordChange }) => {
+      return <>
+        <label>PW : </label>
+        <input type="password" onChange={handlePasswordChange} />
+      </>
+    }
+
+    const App = () => {
+      const [Id, setId] = React.useState('')
+      const [password, setPassword] = React.useState('')
+
+      const handleIDChange = (event) => {
+        setId(event.target.value)
+      }
+
+      const handlePasswordChange = (event) => {
+        setPassword(event.target.value)
+      }
+
+      const handleLoginClick = () => {
+        alert(`id : ${Id}, password : ${password}`)
+      }
+
+      return (
+      <React.Fragment>
+        <ID handleIDChange={handleIDChange} />
+        <br />
+        <Password handlePasswordChange={handlePasswordChange} />
+        <button disabled={Id.length === 0 || password.length === 0} onClick={handleLoginClick}>LOGIN</button>
+      </React.Fragment>
+      )
+    }
+
+    ReactDOM.render(<App />, document.getElementById('root'))
+  </script>
+</body>
+</html>
