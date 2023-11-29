@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <div id="root"></div>
+  <script type="text/babel">
+    const rootElement = document.getElementById('root')
+
+    const Child = () => {
+      console.log('   Child start')
+
+      const [text, setText] = React.useState(() => {
+        console.log('   Child useState')
+        return ''
+      })
+
+      React.useEffect(() => {
+        console.log('   Child useEffect, no deps')
+        return () => {
+          console.log('    Child useEffect Cleanup, no deps')
+        }
+      })
+
+      React.useEffect(() => {
+        console.log('   Child useEffect, empty deps')
+        return () => {
+          console.log('    Child useEffect Cleanup, empty deps')
+        }
+      }, [])
+
+      React.useEffect(() => {
+        console.log('   Child useEffect, [text]')
+        return () => {
+          console.log('    Child useEffect Cleanup, [text]')
+        }
+      }, [text])
+
+      function handleChange(event) {
+        setText(event.target.value)
+      }
+
+      console.log('   Child end')
+
+      return (
+        <React.Fragment>
+          <input onChange={handleChange} />
+          <p>{text}</p>
+        </React.Fragment>
+      )
+    }
+    
+    const App = () => {
+      console.log('App start')
+
+      const [show, setShow] = React.useState(() => {
+        console.log('App useState')
+        return false
+      })
+
+      React.useEffect(() => {
+        console.log('App useEffect, no deps')
+        return () => {
+          console.log('App useEffect Cleanup, no deps')
+        }
+      })
+
+      React.useEffect(() => {
+        console.log('App useEffect, empty deps')
+        return () => {
+          console.log('App useEffect Cleanup, empty deps')
+        }
+      }, [])
+
+      React.useEffect(() => {
+        console.log('App useEffect, [show]')
+        return () => {
+          console.log('App useEffect Cleanup, [show]')
+        }
+      }, [show])
+
+      function handleClick() {
+        setShow(prev => !prev)
+      }
+
+      console.log('App end')
+
+      return (
+        <React.Fragment>
+          <button onClick={handleClick}>search</button>
+          {show ? <Child /> : null}
+        </React.Fragment>
+      )
+    }
+
+    ReactDOM.render(<App />, rootElement)
+  </script>
+</body>
+</html>
