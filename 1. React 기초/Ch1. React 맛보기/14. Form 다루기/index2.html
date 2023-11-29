@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<body>
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <div id="root"></div>
+  <script type="text/babel">
+    const App = () => {
+      const [ message, setMessage ] = React.useState('')
+      const  [ phoneNumber, setPhoneNumber ] = React.useState('')
+
+      const handleSubmit = (event) => {
+        event.preventDefault()
+        alert(phoneNumber)
+      }
+
+      const handleChange = (event) => {
+        if(event.target.value.startsWith(0)) {
+          setMessage('Phone Number is valid')
+          setPhoneNumber(event.target.value)
+        } else if(event.target.value.length === 0) {
+          setMessage('')
+          setPhoneNumber('')
+        } else {
+          setMessage('Phone Number should start with 0')
+        }
+      }
+
+      return (
+      <React.Fragment>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="phone">Phone Number : </label>
+          <input id="phone" name="phone" onChange={handleChange} value={phoneNumber} />
+          <p>{message}</p>
+          <button type="submit" disabled={phoneNumber.length === 0 || message !== 'Phone Number is valid'}>Submit</button>
+          <p>{phoneNumber}</p>
+        </form>
+      </React.Fragment>
+      )
+    }
+
+    ReactDOM.render(<App />, document.getElementById('root'))
+  </script>
+</body>
+</html>
